@@ -109,13 +109,6 @@ def home(request):
     # --------------------------
     # View Options
     # --------------------------
-    # view_options = MVView(
-    #     projection='EPSG:4326',
-    #     center=[41.1, -111.5],   # <-- Utah center (latitude, longitude)
-    #     zoom=10,
-    #     maxZoom=18,
-    #     minZoom=5
-    # )
 
     view_options = MVView(
         projection='EPSG:4326',
@@ -158,27 +151,6 @@ def home(request):
         draw=drawing_options,
         legend=True
     )
-
-    # my_map = MapView(
-    #     height='100%',
-    #     width='100%',
-    #     controls=[
-    #         'ZoomSlider', 'Rotate', 'FullScreen',
-    #         {'ZoomToExtent': {
-    #             'projection': 'EPSG:4326',
-    #             'extent': [-112.026062, 41.088677, -111.82315, 41.76016]  #: Utah
-    #         }}
-    #         ],
-
-    #         basemap='OpenStreetMap',
-    #         view=MVView(
-    #             projection='EPSG:4326',
-    #             center=[-111.924606, 41.4244185],
-    #             zoom=7,
-    #             maxZoom=18,
-    #             minZoom=2
-    #         )
-    #     )
 
 
     # --------------------------
