@@ -50,10 +50,9 @@ conda create -n tethys_env python=3.11 -y
 conda activate tethys_env
 ```
 
-3. **Install dependencies:**
+3. **Configure details:**
 
 ```
-pip install git+https://github.com/tethysplatform/tethys.git@main
 tethys db configure
 ```
 Answer questions about what you want to name the app, etc.
