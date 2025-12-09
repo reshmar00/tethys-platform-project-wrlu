@@ -29,16 +29,6 @@ BUCKET_NAME = os.getenv('BUCKET_NAME')
 GEOJSON_KEY = os.getenv('GEOJSON_KEY')
 CSV_KEY = os.getenv('CSV_KEY')
 
-print("\n")
-print("\n")
-print("*****************")
-print("\n")
-
-print("\n")
-print("*****************")
-print("\n")
-print("\n")
-
 # Build GeoJSON and CSV URLs (public S3)
 geojson_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{GEOJSON_KEY}"
 csv_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{CSV_KEY}"
