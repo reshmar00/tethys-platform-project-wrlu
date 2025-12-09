@@ -1,13 +1,11 @@
 import os
 from dotenv import load_dotenv
 from tethys_sdk.routing import controller
-from tethys_sdk.gizmos import Button, MapView, MVView, MVDraw, MVLayer
+from tethys_sdk.gizmos import Button, MapView, MVView, MVDraw, MVLayer, LinePlot
 
 from django.urls import reverse_lazy
 from tethys_sdk.layouts import MapLayout
 from .app import App
-
-from tethys_sdk.gizmos import LinePlot
 import pandas as pd
 
 
@@ -21,10 +19,8 @@ BUCKET_NAME = os.getenv('BUCKET_NAME')
 GEOJSON_KEY = os.getenv('GEOJSON_KEY')
 CSV_KEY = os.getenv('CSV_KEY')
 
-# Build GeoJSON URL (public S3)
+# Build GeoJSON and CSV URLs (public S3)
 geojson_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{GEOJSON_KEY}"
-
-# Build GeoJSON URL (public S3)
 csv_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{CSV_KEY}"
 
 @controller
@@ -91,6 +87,8 @@ def home(request):
             'title': 'Next'
         }
     )
+
+    ########### Map Portion Start ###########
 
     # --------------------------
     # Map View Layer
@@ -159,55 +157,53 @@ def home(request):
         legend=True
     )
 
-    # WRLU entries per year
-    wrlu_data = {
-        1989: 6251,
-        1991: 4397,
-        1992: 18048,
-        1994: 8668,
-        1995: 45882,
-        1996: 21634,
-        1997: 6183,
-        1998: 6623,
-        1999: 19457
-    }
+    ########### Map Portion End ###########
 
-    # Convert to list of [year, count] for the plot
-    series_data = [[year, count] for year, count in sorted(wrlu_data.items())]
-
-    # Create LinePlot
-    wrlu_plot = LinePlot(
-        height='350px',
-        width='700px',
-        engine='highcharts',
-        title='WRLU Data Collection Trend in Utah',
-        subtitle='1989–1999 (missing 1990, 1993)',
-        spline=True,                  # smooth line
-        x_axis_title='Year',
-        y_axis_title='Number of Entries',
-        x_axis_units='year',
-        y_axis_units='entries',
-        series=[
-            {
-                'name': 'WRLU Entries',
-                'color': '#1f77b4',
-                'marker': {'enabled': True},  # show points for each year
-                'data': series_data
-            }
-        ]
-    )
+    ########### Plot Portion Start ###########
 
     # --------------------------
-    # Dummy LinePlot
+    # Load CSV from S3
     # --------------------------
-    # line_plot_view = LinePlot(
-    #     height='400px',
-    #     width='100%',
-    #     engine='highcharts',
-    #     title='Dummy Plot',
-    #     series=[{'name':'Test', 'color':'#0066ff','data':[[1989,1],[1991,2],[1992,3],[1994,4],[1995,5]]}]
-    # )
+    #df = pd.read_csv(csv_url)  # Use sep='\t' if tab-delimited: sep='\t'
 
+    # Aggregate total ACRES per SURVEY YEAR
+    #acres_per_year = df.groupby('SURVEY YEAR')['ACRES'].sum().reset_index()
+
+    # Ensure years are integers
+    #acres_per_year['SURVEY YEAR'] = acres_per_year['SURVEY YEAR'].astype(int)
+
+    # Optional: include missing years with 0 acres
+    #all_years = pd.DataFrame({'SURVEY YEAR': range(1989, 2000)})
+    #acres_per_year = all_years.merge(acres_per_year, on='SURVEY YEAR', how='left').fillna(0)
+
+    # Prepare series for LinePlot
+    #series_data = [
+    #    {
+    #        'name': 'Total WRLU Acres',
+    #        'color': '#1f77b4',
+    #        'marker': {'enabled': True},
+    #        'data': [[row['SURVEY YEAR'], row['ACRES']] for _, row in acres_per_year.iterrows()]
+    #    }
+    #]
+
+    # --------------------------
+    # LinePlot
+    # --------------------------
+    #wrlu_plot = LinePlot(
+    #    height='400px',
+    #    width='100%',
+    #    engine='highcharts',
+    #    title='Total Water-Related Land Use (WRLU) Area in Utah',
+    #    subtitle='Acres per Year (1989–1999)',
+    #    spline=True,
+    #    x_axis_title='Year',
+    #    y_axis_title='Total Acres',
+    #    x_axis_units='year',
+    #    y_axis_units='acres',
+    #    series=series_data
+    #)
+
+    ########### Plot Portion End ###########
 
     # --------------------------
     # Context
@@ -219,7 +215,7 @@ def home(request):
         'previous_button': previous_button,
         'next_button': next_button,
         'my_map': my_map,
-        'wrlu_plot': wrlu_plot
+        #'wrlu_plot': wrlu_plot
     }
 
     return App.render(request, 'home.html', context)
