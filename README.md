@@ -53,8 +53,10 @@ conda activate tethys_env
 3. **Install dependencies:**
 
 ```
-pip install -r requirements.txt
+pip install git+https://github.com/tethysplatform/tethys.git@main
+tethys db configure
 ```
+Answer questions about what you want to name the app, etc.
 
 4. **Configure environment variables:**
 
@@ -92,7 +94,6 @@ http://127.0.0.1:8000/apps/project-wrlu/
 ```
 ├── README.md
 └── .env                                 # Environment variables
-└── requirements.txt
 └── tethysapp-project_wrlu
    ├── install.yml
    ├── pyproject.toml
