@@ -89,15 +89,19 @@ def home(request):
     # Map View Layer
     # --------------------------
     map_layer = MVLayer(
-        geojson_url,
-        'WRLU 1989–1999',
+        source='GeoJSON',
         options={
+            'url': geojson_url
+        },
+        layer_options={
             'style': {
-                'color': 'blue',
-                'weight': 2,
-                'fillOpacity': 0.5
+                'ol.style.Style': {
+                    'stroke': {'ol.style.Stroke': {'color': 'blue', 'width': 2}},
+                    'fill': {'ol.style.Fill': {'color': 'blue', 'fillOpacity': 0.5}},
+                }
             }
-        }
+        },
+        legend_title='WRLU 1989–1999'
     )
 
 
