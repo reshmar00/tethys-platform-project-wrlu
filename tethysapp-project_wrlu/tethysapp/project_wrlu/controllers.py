@@ -111,10 +111,10 @@ def home(request):
     # --------------------------
     view_options = MVView(
         projection='EPSG:4326',
-        center=[39.3, -111.9],   # <-- Utah center (latitude, longitude)
-        zoom=8,
+        center=[41.1, -111.5],   # <-- Utah center (latitude, longitude)
+        zoom=10,
         maxZoom=18,
-        minZoom=2
+        minZoom=5
     )
 
     # --------------------------
