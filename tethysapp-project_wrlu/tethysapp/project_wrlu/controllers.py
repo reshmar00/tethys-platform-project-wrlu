@@ -1,7 +1,10 @@
 import os
 from dotenv import load_dotenv
 from tethys_sdk.routing import controller
-from tethys_sdk.gizmos import Button, MapView, Layer
+from tethys_sdk.gizmos import Button, MapView, MVLayer
+
+from django.urls import reverse_lazy
+from tethys_sdk.layouts import MapLayout
 from .app import App
 
 # --------------------------
@@ -83,19 +86,20 @@ def home(request):
     )
 
     # --------------------------
-    # Map Layer
+    # Map View Layer
     # --------------------------
-    map_layer = Layer(
-        source=geojson_url,
-        layer_options={
+    map_layer = MVLayer(
+        geojson_url,
+        'WRLU 1989–1999',
+        options={
             'style': {
                 'color': 'blue',
                 'weight': 2,
                 'fillOpacity': 0.5
             }
-        },
-        legend_title='WRLU 1989–1999'
+        }
     )
+
 
     # --------------------------
     # MapView
@@ -107,6 +111,7 @@ def home(request):
         controls=['ZoomSlider', 'FullScreen'],
         attribution='Data: S3 GeoJSON'
     )
+
 
     # --------------------------
     # Context
