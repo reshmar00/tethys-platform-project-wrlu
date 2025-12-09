@@ -8,6 +8,7 @@ from tethys_sdk.layouts import MapLayout
 from .app import App
 
 from tethys_sdk.gizmos import LinePlot
+import pandas as pd
 
 
 # --------------------------
@@ -17,11 +18,14 @@ env_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path=env_path)
 
 BUCKET_NAME = os.getenv('BUCKET_NAME')
-BUCKET_KEY = os.getenv('BUCKET_KEY')
+GEOJSON_KEY = os.getenv('GEOJSON_KEY')
+CSV_KEY = os.getenv('CSV_KEY')
 
 # Build GeoJSON URL (public S3)
-geojson_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{BUCKET_KEY}"
+geojson_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{GEOJSON_KEY}"
 
+# Build GeoJSON URL (public S3)
+csv_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{CSV_KEY}"
 
 @controller
 def home(request):
