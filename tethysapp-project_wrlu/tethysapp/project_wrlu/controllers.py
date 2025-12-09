@@ -155,16 +155,54 @@ def home(request):
         legend=True
     )
 
+    # WRLU entries per year
+    wrlu_data = {
+        1989: 6251,
+        1991: 4397,
+        1992: 18048,
+        1994: 8668,
+        1995: 45882,
+        1996: 21634,
+        1997: 6183,
+        1998: 6623,
+        1999: 19457
+    }
+
+    # Convert to list of [year, count] for the plot
+    series_data = [[year, count] for year, count in sorted(wrlu_data.items())]
+
+    # Create LinePlot
+    wrlu_plot = LinePlot(
+        height='350px',
+        width='700px',
+        engine='highcharts',
+        title='WRLU Data Collection Trend in Utah',
+        subtitle='1989–1999 (missing 1990, 1993)',
+        spline=True,                  # smooth line
+        x_axis_title='Year',
+        y_axis_title='Number of Entries',
+        x_axis_units='year',
+        y_axis_units='entries',
+        series=[
+            {
+                'name': 'WRLU Entries',
+                'color': '#1f77b4',
+                'marker': {'enabled': True},  # show points for each year
+                'data': series_data
+            }
+        ]
+    )
+
     # --------------------------
     # Dummy LinePlot
     # --------------------------
-    line_plot_view = LinePlot(
-        height='400px',
-        width='100%',
-        engine='highcharts',
-        title='Dummy Plot',
-        series=[{'name':'Test', 'color':'#0066ff','data':[[1989,1],[1991,2],[1992,3],[1994,4],[1995,5]]}]
-    )
+    # line_plot_view = LinePlot(
+    #     height='400px',
+    #     width='100%',
+    #     engine='highcharts',
+    #     title='Dummy Plot',
+    #     series=[{'name':'Test', 'color':'#0066ff','data':[[1989,1],[1991,2],[1992,3],[1994,4],[1995,5]]}]
+    # )
 
 
     # --------------------------
@@ -177,7 +215,7 @@ def home(request):
         'previous_button': previous_button,
         'next_button': next_button,
         'my_map': my_map,
-        'line_plot_view': line_plot_view
+        'wrlu_plot': wrlu_plot
     }
 
     return App.render(request, 'home.html', context)
