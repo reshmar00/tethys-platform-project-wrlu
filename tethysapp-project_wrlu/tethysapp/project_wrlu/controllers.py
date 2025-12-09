@@ -7,17 +7,37 @@ from django.urls import reverse_lazy
 from tethys_sdk.layouts import MapLayout
 from .app import App
 import pandas as pd
-
+import requests
+from io import StringIO
+import boto3
 
 # --------------------------
 # Load .env file
 # --------------------------
-env_path = os.path.join(os.path.dirname(__file__), '.env')
+
+env_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    '.env'
+)
+
 load_dotenv(dotenv_path=env_path)
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 BUCKET_NAME = os.getenv('BUCKET_NAME')
 GEOJSON_KEY = os.getenv('GEOJSON_KEY')
 CSV_KEY = os.getenv('CSV_KEY')
+
+print("\n")
+print("\n")
+print("*****************")
+print("\n")
+
+print("\n")
+print("*****************")
+print("\n")
+print("\n")
 
 # Build GeoJSON and CSV URLs (public S3)
 geojson_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{GEOJSON_KEY}"
@@ -157,6 +177,27 @@ def home(request):
         legend=True
     )
 
+    s3_client = boto3.client(
+        's3',
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    )
+
+    try:
+        response = s3_client.get_object(Bucket=BUCKET_NAME, Key=CSV_KEY)
+        print("✅ Got a positive response(",response,")when trying to get the object")
+
+        csv_content = response['Body'].read().decode('utf-8')
+        # Print the first 6 lines to check
+        first_lines = "\n".join(csv_content.splitlines()[:6])
+        print("First 6 lines of CSV:\n", first_lines)
+        print("\n\n")
+        # csv_content = response['Body'].read().decode('utf-8')
+        # print("✅ Successfully fetched CSV from S3")
+    except requests.exceptions.RequestException as e:
+        print("❌ Error fetching CSV:", e)
+
+
     ########### Map Portion End ###########
 
     ########### Plot Portion Start ###########
@@ -164,7 +205,11 @@ def home(request):
     # --------------------------
     # Load CSV from S3
     # --------------------------
-    #df = pd.read_csv(csv_url)  # Use sep='\t' if tab-delimited: sep='\t'
+
+    #response = requests.get(csv_url)
+    #response.raise_for_status()
+    # df = pd.read_csv(StringIO(response.text))
+    #df = pd.read_csv(csv_url)
 
     # Aggregate total ACRES per SURVEY YEAR
     #acres_per_year = df.groupby('SURVEY YEAR')['ACRES'].sum().reset_index()
