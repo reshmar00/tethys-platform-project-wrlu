@@ -10,6 +10,9 @@
 {% block app_content %}
   <h1>Welcome to your Tethys App!</h1>
   <p>Take advantage of beautiful typography to organize the content of your app:</p>
+
+  {% gizmo my_map %}
+
   <h1>Heading 1</h1>
   <h2>Heading 2</h2>
   <h3>Heading 3</h3>
@@ -18,7 +21,6 @@
   <h6>Heading 6</h6>
 {% endblock %}
 
-{# Use the after_app_content block for modals #}
 {% block after_app_content %}
   <!-- Example Modal -->
   <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
