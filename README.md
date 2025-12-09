@@ -11,6 +11,7 @@ The WRLU App is a [Tethys Platform](https://www.tethysplatform.org/) web applica
 This app is built with the **Tethys SDK**, **Django**, **Python**, and **Pandas**, fetching data directly from AWS S3 using access keys.
 
 ## Demo
+![Demo](./tethysapp-project_wrlu/tethysapp/project_wrlu/resources/tethys_wrlu_demo.gif)
 
 ## Features
 
