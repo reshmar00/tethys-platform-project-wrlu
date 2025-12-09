@@ -121,8 +121,7 @@ def home(request):
         width='100%',
         layers=[map_layer],
         view=view_options,
-        controls=['ZoomSlider', 'FullScreen'],
-        attribution='Data: S3 GeoJSON'
+        controls=['ZoomSlider', 'FullScreen']
     )
 
 
