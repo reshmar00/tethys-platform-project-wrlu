@@ -119,8 +119,8 @@ def home(request):
 
     view_options = MVView(
         projection='EPSG:4326',
-        center=[-111.924606, 41.4244185],
-        zoom=10,
+        center=[-112.0, 40.7],
+        zoom=8,
         maxZoom=18,
         minZoom=5
     )
@@ -152,7 +152,7 @@ def home(request):
         height='500px',
         width='100%',
         controls=controls_settings,
-        layers=[map_layer],
+        layers=map_layer,
         view=view_options,
         basemap=basemaps,
         draw=drawing_options,
