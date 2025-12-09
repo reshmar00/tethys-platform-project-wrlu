@@ -7,6 +7,9 @@ from django.urls import reverse_lazy
 from tethys_sdk.layouts import MapLayout
 from .app import App
 
+from tethys_sdk.gizmos import LinePlot
+
+
 # --------------------------
 # Load .env file
 # --------------------------
@@ -152,6 +155,17 @@ def home(request):
         legend=True
     )
 
+    # --------------------------
+    # Dummy LinePlot
+    # --------------------------
+    line_plot_view = LinePlot(
+        height='400px',
+        width='100%',
+        engine='highcharts',
+        title='Dummy Plot',
+        series=[{'name':'Test', 'color':'#0066ff','data':[[1989,1],[1991,2],[1992,3],[1994,4],[1995,5]]}]
+    )
+
 
     # --------------------------
     # Context
@@ -162,7 +176,8 @@ def home(request):
         'remove_button': remove_button,
         'previous_button': previous_button,
         'next_button': next_button,
-        'my_map': my_map
+        'my_map': my_map,
+        'line_plot_view': line_plot_view
     }
 
     return App.render(request, 'home.html', context)

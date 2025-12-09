@@ -14,8 +14,14 @@
 
   {% gizmo my_map %}
 
-  <p> Dummy text. Lorem ipsum.</p>
+  {% load tethys_gizmos %}
+
+  <div style="margin-top:20px;">
+    <h3>Time Series Plot</h3>
+    {% gizmo line_plot_view %}
+  </div>
 {% endblock %}
+
 
 {% block after_app_content %}
   <!-- Example Modal -->
