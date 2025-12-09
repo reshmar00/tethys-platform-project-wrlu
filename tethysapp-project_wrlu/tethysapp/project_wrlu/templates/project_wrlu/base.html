@@ -12,42 +12,6 @@
 {# The name you provided in your app.py is accessible through the tethys_app.name context variable #}
 {% block app_title %}{{ tethys_app.name }}{% endblock %}
 
-{% block app_navigation_items %}
-  <li class="nav-item title">App Navigation</li>
-
-  <li class="nav-item active">
-    <a class="nav-link" href="{% url tethys_app.root_url %}">Home</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}jobs">Jobs</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}results">Results</a>
-  </li>
-
-  <li class="nav-item title">Steps</li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}step1">1. The First Step</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}step2">2. The Second Step</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}step3">3. The Third Step</a>
-  </li>
-
-  <li class="nav-item separator"></li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="{% url tethys_app.root_url %}start">Get Started</a>
-  </li>
-{% endblock %}
-
 {% block app_content %}
 {% endblock %}
 
